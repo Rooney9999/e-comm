@@ -1,0 +1,43 @@
+
+.nav-bar li{
+  display: inline-block;
+  padding: 10px;
+ 
+}
+.header{
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+}
+.footer{
+ 
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+    width: 100%;
+    color: blue;
+}
+.form{
+ margin-left: 30%;
+ margin-top:0;
+ background-color: aqua;
+
+
+}
+
+.nav-bar  {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  position: relative;
+  top: 0;
+}
+.nav-barl {
+  text-align: right;
+
+};
+.valid{
+  color: red;
+  
+}
