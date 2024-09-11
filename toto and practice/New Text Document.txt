@@ -1,0 +1,100 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User');
+
+// CREATE a new user
+router.post('/', async (req, res) => {
+  const newUser = new User(req.body);
+  await newUser.save();
+  res.json(newUser);
+});
+
+// READ all users
+router.get('/', async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
+
+// UPDATE a user by ID
+router.put('/:id', async (req, res) => {
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updatedUser);
+});
+
+// DELETE a user by ID
+router.delete('/:id', async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ message: 'User deleted' });
+});
+
+module.exports = router;
+
+
+
+
+todo list
+
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState('');
+
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = () => {
+    if (taskInput.trim() === '') return;
+    const newTask = { id: Date.now(), text: taskInput, completed: false };
+    setTasks([...tasks, newTask]);
+    setTaskInput('');
+  };
+
+  const toggleTaskCompletion = (id) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+  };
+
+  const deleteTask = (id) => {
+    const updatedTasks = tasks.filter((task) => task.id !== id);
+    setTasks(updatedTasks);
+  };
+
+  return (
+    <div className="App">
+      <h1>To-Do List</h1>
+
+      <div>
+        <input
+          type="text"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          placeholder="Enter a new task"
+        />
+        <button onClick={addTask}>Add Task</button>
+      </div>
+
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+            <span onClick={() => toggleTaskCompletion(task.id)}>{task.text}</span>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
